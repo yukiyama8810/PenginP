@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     [Header("落下速度")]
     public float fallSpeed;
 
+    [Header("着水判定")]
+    public bool inWater;
+
     private Rigidbody rb;
 
     private float x;
@@ -29,8 +32,18 @@ public class PlayerController : MonoBehaviour
 
         rb.velocity = new Vector3(x * moveSpeed, -fallSpeed, z * moveSpeed);
 
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Water" && inWater == false)
+        {
+            inWater = true;
+
+            //ToDo 水しぶきエフェクトの実装
+            Debug.Log("着水 : " + inWater);
+        }
+    }
+
 }

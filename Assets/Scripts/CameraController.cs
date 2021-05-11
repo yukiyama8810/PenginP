@@ -4,22 +4,34 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] GameObject playerObj;
+    [SerializeField] PlayerController playerController;
+
+    [Header("ÉJÉÅÉâãóó£ÇÃé©ìÆí≤êÆ")]
+    [SerializeField] bool AutoAdjustOffset;
 
     Vector3 offset;
 
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position - playerObj.transform.position;
+        if (AutoAdjustOffset)
+        {
+            transform.position = playerController.transform.position + new Vector3(0, 12, -4);
+            AutoAdjustOffset = false;
+        }
+        offset = transform.position - playerController.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(playerObj != null)
+        if(playerController.inWater == true)
         {
-            transform.position = playerObj.transform.position + offset;
+            return;
+        }
+        if(playerController != null)
+        {
+            transform.position = playerController.transform.position + offset;
         }
     }
 }
