@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     private float x;
     private float z;
 
+    [SerializeField, Header("水しぶきエフェクト")]
+    private GameObject splashEffectPrefab = null;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,8 +44,18 @@ public class PlayerController : MonoBehaviour
         {
             inWater = true;
 
-            //ToDo 水しぶきエフェクトの実装
-            Debug.Log("着水 : " + inWater);
+            //エフェクト生成、生成されたエフェクトをeffectに代入
+            GameObject effect = Instantiate(splashEffectPrefab, transform.position, Quaternion.identity);
+
+            //effect変数を利用して、エフェクトの位置を調整
+            effect.transform.position = new Vector3(effect.transform.position.x, effect.transform.position.y, effect.transform.position.z - 0.5f);
+
+            //effect変数を利用してエフェクトを2秒後に破壊
+            //Destroy(effect, 2.0f);
+
+
+            //ToDo 水しぶきのSE実装
+
         }
     }
 
