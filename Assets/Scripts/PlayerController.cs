@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
     private float x;
     private float z;
 
-    private Vector3 straightRotation = new Vector3(180, 0, 0);
+    private Vector3 straightRotation = new Vector3(180, 0, 0); //頭を下方向に向ける際の回転角度
+
+    private int score;
 
     [SerializeField, Header("水しぶきエフェクト")]
     private GameObject splashEffectPrefab = null;
@@ -65,6 +67,17 @@ public class PlayerController : MonoBehaviour
             //AudioSource.PlayClipAtPoint(splashSE, transform.position);
 
             StartCoroutine(OutOfWater());
+
+        }
+
+        if(other.gameObject.tag == "FlowerCircle")
+        {
+            //Debug.Log("花おｋ");
+
+            //衝突した花にくっついたpointの値を加算
+            score += other.transform.parent.GetComponent<FlowerCircle>().point;
+
+            Debug.Log("現在の得点 :" + score);
 
         }
     }

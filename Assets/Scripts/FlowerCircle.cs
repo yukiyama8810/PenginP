@@ -5,6 +5,10 @@ using DG.Tweening;
 
 public class FlowerCircle : MonoBehaviour
 {
+    [Header("‚¿“¾“_")]
+    public int point;
+
+
     // Start is called before the first frame update
     void Start()
     {
