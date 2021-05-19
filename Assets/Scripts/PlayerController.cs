@@ -96,5 +96,4 @@ public class PlayerController : MonoBehaviour
         transform.DOMoveY(3.9f, 1.0f);
     }
 
-
 }
