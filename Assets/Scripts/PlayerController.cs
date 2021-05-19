@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private float x;
     private float z;
 
+    private Vector3 straightRotation = new Vector3(180, 0, 0);
+
     [SerializeField, Header("水しぶきエフェクト")]
     private GameObject splashEffectPrefab = null;
 
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        transform.eulerAngles = straightRotation;
     }
 
     private void FixedUpdate()
@@ -58,9 +62,26 @@ public class PlayerController : MonoBehaviour
             Destroy(effect, 2.0f);
 
 
-            AudioSource.PlayClipAtPoint(splashSE, transform.position);
+            //AudioSource.PlayClipAtPoint(splashSE, transform.position);
+
+            StartCoroutine(OutOfWater());
 
         }
     }
+    /// <summary>
+    /// 水面に顔を出す
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator OutOfWater()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        rb.isKinematic = true;
+
+        transform.eulerAngles = new Vector3(-30, 180, 0);
+
+        transform.DOMoveY(3.9f, 1.0f);
+    }
+
 
 }
