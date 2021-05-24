@@ -16,6 +16,13 @@ public class PlayerController : MonoBehaviour
     [Header("’……”»’è")]
     public bool inWater;
 
+    //ƒLƒƒƒ‰‚Ìó‘Ô‚Ìí—Ş
+    public enum AttitudeType
+    {
+        /*’¼ŠŠ~(ƒfƒtƒHƒ‹ƒg)*/Straight, /*•š‚¹*/Prone,
+    }
+    [Header("Œ»İ‚ÌƒLƒƒƒ‰‚Ìp¨")] public AttitudeType attitudeType;
+
     private Rigidbody rb;
 
     private float x;
@@ -24,7 +31,8 @@ public class PlayerController : MonoBehaviour
     private float Altitude;
     
 
-    private Vector3 straightRotation = new Vector3(180, 0, 0); //“ª‚ğ‰º•ûŒü‚ÉŒü‚¯‚éÛ‚Ì‰ñ“]Šp“x
+    private Vector3 straightRotation = new Vector3(180, 0, 0);  //“ª‚ğ‰º•ûŒü‚ÉŒü‚¯‚éÛ‚Ì‰ñ“]Šp“x
+    private Vector3 proneRotation = new Vector3(-90, 0, 0);     //•š‚¹‚Ìp¨‚Ì‰ñ“]Šp“x
 
     private int score;
 
@@ -45,6 +53,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         transform.eulerAngles = straightRotation;
         Altitude = (transform.position.y - 4.0f) / 4;
+        attitudeType = AttitudeType.Straight;
         
     }
 
@@ -58,9 +67,48 @@ public class PlayerController : MonoBehaviour
             Altitude = (transform.position.y - 4) / 4;
             //Debug.Log("test"+test);
             //Debug.Log("Altitude :" + Altitude);
-            Debug.Log(txtAltitude.text);
+            //Debug.Log(txtAltitude.text);
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (!inWater)
+            {
+                ChangeAttitude();
+                Debug.Log("‚Ä‚·‚Æ‚£");
+            }
+            
         }
         
+    }
+    /// <summary>
+    /// p¨‚ÌŠÇ—•ÏX
+    /// </summary>
+    private void ChangeAttitude()
+    {
+        switch (attitudeType)
+        {
+            case AttitudeType.Straight:
+
+                attitudeType = AttitudeType.Prone;
+
+                transform.DORotate(proneRotation, 0.25f, RotateMode.WorldAxisAdd);
+
+                rb.drag = 25.0f;
+
+                break;
+
+            case AttitudeType.Prone:
+
+                attitudeType = AttitudeType.Straight;
+
+                transform.DORotate(straightRotation, 0.25f);
+
+                rb.drag = 0f;
+
+                break;
+               
+        }
     }
 
     private void FixedUpdate()
