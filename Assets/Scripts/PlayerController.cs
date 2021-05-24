@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Header("…‚µ‚Ô‚«SE")]
     private AudioClip splashSE = null;
+
+    [SerializeField] private Text txtScore;
 
 
 
@@ -77,7 +81,8 @@ public class PlayerController : MonoBehaviour
             //Õ“Ë‚µ‚½‰Ô‚É‚­‚Á‚Â‚¢‚½point‚Ì’l‚ğ‰ÁZ
             score += other.transform.parent.GetComponent<FlowerCircle>().point;
 
-            Debug.Log("Œ»İ‚Ì“¾“_ :" + score);
+            //Debug.Log("Œ»İ‚Ì“¾“_ :" + score);
+            txtScore.text = score.ToString();
 
         }
     }
