@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private AudioClip splashSE = null;
 
     [SerializeField] private Text txtScore;
+    [SerializeField] private Text txtAltitude;
 
 
 
@@ -43,17 +44,21 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         transform.eulerAngles = straightRotation;
+        Altitude = (transform.position.y - 4.0f) / 4;
+        
     }
 
     private void Update()
     {
-        if (Altitude > 0) //ToDo 高度がこのままだと最終値がマイナスになるのでUIに落とし込む段階で調整
+        if (Altitude > 0)
         {
             //Y座標４の地点を0mとし座標が４動くごとに１ｍと仮定して計算
-            Altitude = (transform.position.y - 4) / 4 * 100;
-            Altitude = (int)Altitude;
-            Altitude = (float)Altitude / 100;
-            Debug.Log(Altitude);
+            
+            txtAltitude.text = Altitude.ToString("F2");
+            Altitude = (transform.position.y - 4) / 4;
+            //Debug.Log("test"+test);
+            //Debug.Log("Altitude :" + Altitude);
+            Debug.Log(txtAltitude.text);
         }
         
     }
