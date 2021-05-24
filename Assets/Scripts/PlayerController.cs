@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text txtScore;
     [SerializeField] private Text txtAltitude;
 
+    [SerializeField] private Button btnChangeAttitude;
+
 
 
     // Start is called before the first frame update
@@ -54,6 +56,8 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles = straightRotation;
         Altitude = (transform.position.y - 4.0f) / 4;
         attitudeType = AttitudeType.Straight;
+
+        btnChangeAttitude.onClick.AddListener(ChangeAttitude);
         
     }
 
@@ -72,43 +76,49 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (!inWater)
-            {
-                ChangeAttitude();
-                Debug.Log("てすとぅ");
-            }
-            
+            ChangeAttitude();
         }
         
     }
     /// <summary>
     /// 姿勢の管理変更
     /// </summary>
+    /// ToDo マウスでボタンをクリックしたのちスペースキーを押すと高速ダブルタップ判定になりバグる減少の解決（しなくてもいいかも）
     private void ChangeAttitude()
     {
-        switch (attitudeType)
+        if (!inWater)
         {
-            case AttitudeType.Straight:
 
-                attitudeType = AttitudeType.Prone;
+            switch (attitudeType)
+            {
+                case AttitudeType.Straight:
 
-                transform.DORotate(proneRotation, 0.25f, RotateMode.WorldAxisAdd);
+                    attitudeType = AttitudeType.Prone;
 
-                rb.drag = 25.0f;
+                    transform.DORotate(proneRotation, 0.25f, RotateMode.WorldAxisAdd);
 
-                break;
+                    rb.drag = 25.0f;
 
-            case AttitudeType.Prone:
+                    btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 90), 0.25f);
 
-                attitudeType = AttitudeType.Straight;
+                    break;
 
-                transform.DORotate(straightRotation, 0.25f);
+                case AttitudeType.Prone:
 
-                rb.drag = 0f;
+                    attitudeType = AttitudeType.Straight;
 
-                break;
-               
+                    transform.DORotate(straightRotation, 0.25f);
+
+                    rb.drag = 0f;
+
+                    btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 180), 0.25f);
+
+                    break;
+
+            }
+            
         }
+        
     }
 
     private void FixedUpdate()
