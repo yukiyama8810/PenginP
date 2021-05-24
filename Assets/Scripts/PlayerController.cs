@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     private float x;
     private float z;
 
+    private float Altitude;
+    
+
     private Vector3 straightRotation = new Vector3(180, 0, 0); //頭を下方向に向ける際の回転角度
 
     private int score;
@@ -40,6 +43,19 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         transform.eulerAngles = straightRotation;
+    }
+
+    private void Update()
+    {
+        if (Altitude > 0) //ToDo 高度がこのままだと最終値がマイナスになるのでUIに落とし込む段階で調整
+        {
+            //Y座標４の地点を0mとし座標が４動くごとに１ｍと仮定して計算
+            Altitude = (transform.position.y - 4) / 4 * 100;
+            Altitude = (int)Altitude;
+            Altitude = (float)Altitude / 100;
+            Debug.Log(Altitude);
+        }
+        
     }
 
     private void FixedUpdate()
