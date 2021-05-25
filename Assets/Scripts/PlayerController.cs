@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
     private int score;
 
+    private float attitudeTimer;        //姿勢変更可能になるまでのタイマー
+    private float chargeTime = 2.0f;    //可能になるまでのチャージ時間
+
     [SerializeField, Header("水しぶきエフェクト")]
     private GameObject splashEffectPrefab = null;
 
@@ -46,6 +49,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text txtAltitude;
 
     [SerializeField] private Button btnChangeAttitude;
+
+    [SerializeField] private Image imgGauge;
 
 
 
@@ -78,8 +83,32 @@ public class PlayerController : MonoBehaviour
         {
             ChangeAttitude();
         }
+
+        if(attitudeType == AttitudeType.Straight)
+        {
+            attitudeTimer += Time.deltaTime;
+
+            imgGauge.DOFillAmount(attitudeTimer / chargeTime, 0.1f);
+
+            if(attitudeTimer >= chargeTime)
+            {
+                attitudeTimer = chargeTime;
+            }
+        }
+        if(attitudeType == AttitudeType.Prone)
+        {
+            attitudeTimer -= Time.deltaTime;
+
+            imgGauge.DOFillAmount(attitudeTimer / chargeTime, 0.1f);
+
+            if(attitudeTimer <= 0)
+            {
+                attitudeTimer = 0;
+            }
+        }
         
     }
+
     /// <summary>
     /// 姿勢の管理変更
     /// </summary>
