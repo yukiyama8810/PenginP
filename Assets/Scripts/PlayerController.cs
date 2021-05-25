@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private float attitudeTimer;        //姿勢変更可能になるまでのタイマー
     private float chargeTime = 2.0f;    //可能になるまでのチャージ時間
+    private bool attitudeChecker;      
 
     [SerializeField, Header("水しぶきエフェクト")]
     private GameObject splashEffectPrefab = null;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Button btnChangeAttitude;
 
     [SerializeField] private Image imgGauge;
+    [SerializeField] private Image imgStop;
 
 
 
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
             ChangeAttitude();
         }
 
-        if(attitudeType == AttitudeType.Straight)
+        if(attitudeType == AttitudeType.Straight)   //デフォの時チャージ貯める
         {
             attitudeTimer += Time.deltaTime;
 
@@ -93,9 +95,11 @@ public class PlayerController : MonoBehaviour
             if(attitudeTimer >= chargeTime)
             {
                 attitudeTimer = chargeTime;
+                attitudeChecker = true;
+                imgStop.gameObject.SetActive(false);
             }
         }
-        if(attitudeType == AttitudeType.Prone)
+        if(attitudeType == AttitudeType.Prone)      //平行の時ゲージ減らす
         {
             attitudeTimer -= Time.deltaTime;
 
@@ -104,6 +108,7 @@ public class PlayerController : MonoBehaviour
             if(attitudeTimer <= 0)
             {
                 attitudeTimer = 0;
+                ChangeAttitude();
             }
         }
         
@@ -122,13 +127,20 @@ public class PlayerController : MonoBehaviour
             {
                 case AttitudeType.Straight:
 
-                    attitudeType = AttitudeType.Prone;
+                    if (attitudeChecker)
+                    {
+                        attitudeType = AttitudeType.Prone;
 
-                    transform.DORotate(proneRotation, 0.25f, RotateMode.WorldAxisAdd);
+                        transform.DORotate(proneRotation, 0.25f, RotateMode.WorldAxisAdd);
 
-                    rb.drag = 25.0f;
+                        rb.drag = 25.0f;
 
-                    btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 90), 0.25f);
+                        btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 90), 0.25f);
+
+                        attitudeChecker = false;
+                    }
+
+                    
 
                     break;
 
@@ -141,6 +153,8 @@ public class PlayerController : MonoBehaviour
                     rb.drag = 0f;
 
                     btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 180), 0.25f);
+
+                    imgStop.gameObject.SetActive(true);
 
                     break;
 
