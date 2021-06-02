@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [Header("åªç›ÇÃÉLÉÉÉâÇÃépê®")] public AttitudeType attitudeType;
 
     private Rigidbody rb;
+    private Animator anim;
 
     private float x;
     private float z;
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
         transform.eulerAngles = straightRotation;
         Altitude = (transform.position.y - 4.0f) / 4;
         attitudeType = AttitudeType.Straight;
@@ -144,6 +146,8 @@ public class PlayerController : MonoBehaviour
                         btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 90), 0.25f);
 
                         attitudeChecker = false;
+
+                        anim.SetBool("Prone", true);
                     }
 
                     
@@ -161,6 +165,8 @@ public class PlayerController : MonoBehaviour
                     btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 180), 0.25f);
 
                     imgStop.gameObject.SetActive(true);
+
+                    anim.SetBool("Prone", false);
 
                     break;
 
