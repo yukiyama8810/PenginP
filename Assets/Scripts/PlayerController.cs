@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image imgGauge;
     [SerializeField] private Image imgStop;
 
+    [SerializeField] GameObject effectPrefab;
+
+
 
 
     // Start is called before the first frame update
@@ -206,8 +209,20 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("åªç›ÇÃìæì_ :" + score);
             txtScore.text = score.ToString();
 
+            StartCoroutine(GetFlowerEfc());
+
+            other.transform.parent.GetComponent<FlowerCircle>().GetFlowerAnim(this.transform);
         }
     }
+    private IEnumerator GetFlowerEfc()
+    {
+        yield return new WaitForSeconds(1.1f);
+
+        GameObject effect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+
+        Destroy(effect, 1.0f);
+    }
+
     /// <summary>
     /// êÖñ Ç…äÁÇèoÇ∑
     /// </summary>

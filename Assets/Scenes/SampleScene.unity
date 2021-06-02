@@ -2696,6 +2696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: 77
+  effectPrefab: {fileID: 100010, guid: 214bf6b1f924e43108a92f13c4db31a2, type: 3}
 --- !u!4 &902558342
 Transform:
   m_ObjectHideFlags: 0
@@ -5305,7 +5306,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3497046720387211000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.82, y: 800, z: 3.7}
+  m_LocalPosition: {x: 4.82, y: 80, z: 3.7}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 3497046720386839322}
@@ -6026,6 +6027,7 @@ MonoBehaviour:
   btnChangeAttitude: {fileID: 2053363259}
   imgGauge: {fileID: 458039085}
   imgStop: {fileID: 2095770546}
+  effectPrefab: {fileID: 100010, guid: 214bf6b1f924e43108a92f13c4db31a2, type: 3}
 --- !u!1 &3497046720387211006
 GameObject:
   m_ObjectHideFlags: 0
