@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using Coffee.UIExtensions;
 
 
 public class PlayerController : MonoBehaviour
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image imgStop;
 
     [SerializeField] GameObject effectPrefab;
+    [SerializeField] ShinyEffectForUGUI shinyEffect;
 
 
 
@@ -89,7 +91,7 @@ public class PlayerController : MonoBehaviour
             ChangeAttitude();
         }
 
-        if(attitudeType == AttitudeType.Straight)   //デフォの時チャージ貯める
+        if(attitudeChecker == false && attitudeType == AttitudeType.Straight)   //デフォの時チャージ貯める
         {
             attitudeTimer += Time.deltaTime;
 
@@ -97,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
             if(attitudeTimer >= chargeTime)
             {
+                shinyEffect.Play(0.5f);
                 attitudeTimer = chargeTime;
                 attitudeChecker = true;
                 imgStop.gameObject.SetActive(false);
