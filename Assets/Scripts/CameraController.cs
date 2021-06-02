@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+
+    [SerializeField] Camera fpsCamera;
+    [SerializeField] Camera selfishCamera;
+    [SerializeField] Button btnChangeCamera;
+    int CameraIndex;
+    Camera mainCamera;
 
     [Header("ÉJÉÅÉâãóó£ÇÃé©ìÆí≤êÆ")]
     [SerializeField] bool AutoAdjustOffset;
@@ -20,6 +27,10 @@ public class CameraController : MonoBehaviour
             AutoAdjustOffset = false;
         }
         offset = transform.position - playerController.transform.position;
+
+        mainCamera = Camera.main;
+        btnChangeCamera.onClick.AddListener(ChangeCamera);
+        SetDefaultCamera();
     }
 
     // Update is called once per frame
@@ -33,5 +44,36 @@ public class CameraController : MonoBehaviour
         {
             transform.position = playerController.transform.position + offset;
         }
+    }
+
+    void ChangeCamera()
+    {
+        switch (CameraIndex)
+        {
+            case 0:
+                CameraIndex++;
+                mainCamera.enabled = false;
+                fpsCamera.enabled = true;
+                break;
+            case 1:
+                CameraIndex++;
+                fpsCamera.enabled = false;
+                selfishCamera.enabled = true;
+                break;
+            case 2:
+                CameraIndex = 0;
+                selfishCamera.enabled = false;
+                mainCamera.enabled = true;
+                break;
+        }
+    }
+
+    void SetDefaultCamera()
+    {
+        CameraIndex = 0;
+
+        mainCamera.enabled = true;
+        fpsCamera.enabled = false;
+        selfishCamera.enabled = false;
     }
 }
