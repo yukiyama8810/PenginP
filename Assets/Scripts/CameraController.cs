@@ -38,6 +38,10 @@ public class CameraController : MonoBehaviour
     {
         if(playerController.inWater == true)
         {
+            if(CameraIndex != 0)
+            {
+                SetDefaultCamera();
+            }
             return;
         }
         if(playerController != null)
@@ -48,24 +52,27 @@ public class CameraController : MonoBehaviour
 
     void ChangeCamera()
     {
-        switch (CameraIndex)
+        if (!playerController.inWater)
         {
-            case 0:
-                CameraIndex++;
-                mainCamera.enabled = false;
-                fpsCamera.enabled = true;
-                break;
-            case 1:
-                CameraIndex++;
-                fpsCamera.enabled = false;
-                selfishCamera.enabled = true;
-                break;
-            case 2:
-                CameraIndex = 0;
-                selfishCamera.enabled = false;
-                mainCamera.enabled = true;
-                break;
-        }
+            switch (CameraIndex)
+            {
+                case 0:
+                    CameraIndex++;
+                    mainCamera.enabled = false;
+                    fpsCamera.enabled = true;
+                    break;
+                case 1:
+                    CameraIndex++;
+                    fpsCamera.enabled = false;
+                    selfishCamera.enabled = true;
+                    break;
+                case 2:
+                    CameraIndex = 0;
+                    selfishCamera.enabled = false;
+                    mainCamera.enabled = true;
+                    break;
+            }
+        }        
     }
 
     void SetDefaultCamera()
