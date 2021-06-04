@@ -27,7 +27,7 @@ public class ResultPopUp : MonoBehaviour
 
     public void DisplayResult()
     {
-        canvasGroupPopUp.DOFade(1.0f, 1.0f).onComplete(() =>
+        canvasGroupPopUp.DOFade(1.0f, 1.0f).OnComplete(() =>
          {
              btnRetry.interactable = true;
              canvasGroupTxt.DOFade(1.0f, 1.0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
