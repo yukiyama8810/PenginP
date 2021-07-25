@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject effectPrefab;
     [SerializeField] ShinyEffectForUGUI shinyEffect;
 
+    [SerializeField] ResultPopUp resultPopUp;
+
 
 
 
@@ -201,6 +203,20 @@ public class PlayerController : MonoBehaviour
             //effect変数を利用してエフェクトを2秒後に破壊
             Destroy(effect, 2.0f);
 
+            //クリア時の姿勢戻し、イフ分岐で上手くいかずに面倒だったので上の姿勢変更のコードをコピペ
+            switch(attitudeType)
+            {
+                case AttitudeType.Prone:
+                    attitudeType = AttitudeType.Straight;
+                    transform.DORotate(straightRotation, 0.25f);
+                    rb.drag = 0f;
+                    btnChangeAttitude.transform.GetChild(0).DORotate(new Vector3(0, 0, 180), 0.25f);
+                    imgStop.gameObject.SetActive(true);
+                    anim.SetBool("Prone", false);
+                    break;
+                case AttitudeType.Straight:
+                    break;
+            }
 
             //AudioSource.PlayClipAtPoint(splashSE, transform.position);
 
@@ -244,7 +260,7 @@ public class PlayerController : MonoBehaviour
 
         transform.eulerAngles = new Vector3(-30, 180, 0);
 
-        transform.DOMoveY(3.9f, 1.0f);
+        transform.DOMoveY(3.9f, 1.0f).OnComplete(resultPopUp.DisplayResult);
     }
 
 }
